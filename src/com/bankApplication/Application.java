@@ -18,8 +18,20 @@ public class Application implements Serializable
 
 	public void openAccount(Scanner sc) {
 		sc.nextLine();
-		System.out.println("Enter Mobile number :");
-		int mob=getInput(sc);
+		int mob;
+		while(true) {
+			System.out.println("Enter Mobile number :");
+			 mob=getInput(sc);
+			 if(mob >0 && String.valueOf(mob).length()==10)
+			 {
+				 break;
+			 }
+			 else
+			 {
+				 System.out.println("Invalid Input ...Mobile number should be 10 numbers..");
+			 }
+		}
+		
 		if(m.containsKey(mob))
 		{
 			System.out.println("Account with this number is already available.");
@@ -83,9 +95,9 @@ public void deposit(Scanner sc)
 	BankAccount b=m.get(mob);
 	if(b !=null)
 	{
-		System.out.println("Enter amount to withdraw :");
+		System.out.println("Enter amount to deposit :");
 		double inr=getDInput(sc);
-		b.withdraw(inr);
+		b.deposit(inr);
 	}
 	else
 	{
