@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -13,12 +15,12 @@ import java.util.Scanner;
 
 public class Application implements Serializable
 {
-	Map<Integer, BankAccount> m=new HashMap<>();
+	Map<Long, BankAccount> m=new HashMap<>();
 	static String data="App.txt";
 
 	public void openAccount(Scanner sc) {
 		sc.nextLine();
-		int mob;
+		long mob;
 		while(true) {
 			System.out.println("Enter Mobile number :");
 			 mob=getInput(sc);
@@ -43,10 +45,11 @@ public class Application implements Serializable
 		System.out.println("Enter name:");
 		String name=sc.nextLine();
 		System.out.println("Enter Initial deposit balance :");
-		double b=sc.nextDouble();
-		BankAccount newAccount=new BankAccount(mob, name, b);
+		double b=getDInput(sc);
+        BankAccount newAccount=new BankAccount(mob, name, b);
 		m.put(mob, newAccount);
 		System.out.println("Account created Suuccessfully...");
+		
 		}
 	}
 	
@@ -54,7 +57,7 @@ public class Application implements Serializable
 	{
 		sc.nextLine();
 		System.out.println("Enter Mobile number :");
-		int s=getInput(sc);
+		long s=getInput(sc);
 		BankAccount b=m.get(s);
 		if(b !=null)
 		{
@@ -72,7 +75,7 @@ public class Application implements Serializable
 		/////--------
 		sc.nextLine();
 		System.out.println("Enter Mobile Number :");
-		int mob=getInput(sc);
+		long mob=getInput(sc);
 		BankAccount b=m.get(mob);
 		if(b !=null)
 		{
@@ -91,7 +94,7 @@ public void deposit(Scanner sc)
 {
 	sc.nextLine();
 	System.out.println("Enter mobile number :");
-	int mob=getInput(sc);
+	long mob=getInput(sc);
 	BankAccount b=m.get(mob);
 	if(b !=null)
 	{
@@ -209,7 +212,7 @@ public  void loadData()
 	{
 		FileInputStream fis=new FileInputStream(data);
 		ObjectInputStream ois=new ObjectInputStream(fis);
-		m=(Map<Integer, BankAccount>)ois.readObject();
+		m=(Map<Long, BankAccount>)ois.readObject();
 		
 	}
 	catch (FileNotFoundException e)
@@ -222,12 +225,12 @@ public  void loadData()
 	}
 }
 
-public int getInput(Scanner sc)
+public long getInput(Scanner sc)
 {
 	try 
 	{
 		try {
-			return sc.nextInt();
+			return sc.nextLong();
 		}
 		catch(InputMismatchException e)
 		{
@@ -251,30 +254,23 @@ catch(InputMismatchException e)
 
 public double getDInput(Scanner sc)
 {
-	try 
+	while(true)
 	{
-		try {
-			return sc.nextDouble();
-	}
-	
-	
-	catch(InputMismatchException e)
-	{sc.next();
-		System.out.println("Invalid Input. Please Enter again.");
-		return sc.nextDouble();
+		double d=sc.nextDouble();
+		if(d >0)
+		{
+			return d;
+			
+		}
+		else
+		{
+			System.out.println("Invalid Amount...Please Enter Amount");
+		}
+		
 	}
 }
-	catch(InputMismatchException e)
-	{
-		System.out.println("Invalid amount.");
-		System.out.println("Sorry...Exiting application");
-		sc.nextLine();
-		System.exit(0);
-		return 0;
-		
-		
-	}
-}	
+	
+	
 
 }
 
