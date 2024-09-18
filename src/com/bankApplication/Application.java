@@ -227,10 +227,11 @@ public  void loadData()
 
 public long getInput(Scanner sc)
 {
+
 	try 
 	{
 		try {
-			return sc.nextLong();
+			return sc.nextInt();
 		}
 		catch(InputMismatchException e)
 		{
@@ -251,6 +252,8 @@ catch(InputMismatchException e)
 		
 	}
 }
+
+
 
 public double getDInput(Scanner sc)
 {
